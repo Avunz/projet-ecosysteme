@@ -15,6 +15,11 @@ public class Enums
   Starvation, Thirst, Age, Killed
  }
 
+  public enum CameraMode
+ {
+  Free, Preset, Tracking
+ }
+
  public enum Species
  {
   Chicken, Fox, Plant
