@@ -5,11 +5,12 @@ using UnityEngine;
 public class Chicken : Animal
 {
     private GameObject hunter;
+
     void Start()
     {
         //Debug.LogWarning(instance.name);
         foodTag = "FoodLand";
-        genes = new Genes(7f, 1.6f, 2.5f, 60f, 50f, 70f, 55f);
+        genes = new Genes(7f, 1.6f, 2.5f, 70f, 70f, 70f, 55f);
         base.Start();
 
         navMeshAgent.angularSpeed = 100;
@@ -22,8 +23,11 @@ public class Chicken : Animal
         if (hunter != null)
         {
             Flee();
+            animator.SetFloat("Speed",1);
             return;
         }
+        animator.SetFloat("Speed",0.5f);
+
         base.Update();
         
 
@@ -35,7 +39,7 @@ public class Chicken : Animal
 
         Vector3 directionToHunter = transform.position - hunter.transform.position;
 
-        Vector3 targetPosition = transform.position + directionToHunter;
+        Vector3 targetPosition = transform.position + directionToHunter*1.5f;
         navMeshAgent.SetDestination(targetPosition);
     }
     private GameObject ScanWithTag(string tag)
@@ -46,9 +50,10 @@ public class Chicken : Animal
         {
             if (collider.gameObject.tag.Equals("Fox"))
             {
-                Fox fox = collider.gameObject.GetComponent<Fox>();
-                if (fox == this)
-                    return fox.gameObject;
+                return collider.gameObject;
+                //Fox fox = collider.gameObject.GetComponent<Fox>();
+                //if (fox == this)
+                //return fox.gameObject;
             }
         }
 

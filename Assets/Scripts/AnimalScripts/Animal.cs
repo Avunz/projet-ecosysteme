@@ -10,14 +10,15 @@ public class Animal : Creature
     public Array actions = Enum.GetValues(typeof(Enums.CurrentAction));
 
     protected Enums.Species predator, meal;
+    [SerializeField]
     protected Enums.CurrentAction currentAction = Enums.CurrentAction.Idle;
 
     public Transform model;
     public NavMeshAgent navMeshAgent;
     public Animator animator;
-
-    //public float hungerBar, thirstBar, energyBar, speed, maxHunger, maxThirst, maxEnergy;
+    
     protected int criticalHungerCount = 0, criticalThirstCount = 0, criticalDangerCount = 0, criticalPregnancyDangerCount = 0;
+    [SerializeField]
     protected float actionTimer;
 
     protected string foodTag;
@@ -36,7 +37,7 @@ public class Animal : Creature
     // Update is called once per frame
     protected void Start()
     {
-        actionTimer = 3f;
+        actionTimer = 5f;
         isAlive = true;
         navMeshAgent = GetComponent<NavMeshAgent>();
         navMeshAgent.updateRotation = true;
@@ -44,42 +45,54 @@ public class Animal : Creature
         navMeshAgent.stoppingDistance = 1.2f;
         navMeshAgent.autoBraking = true;
         model = GetComponent<Transform>();
+        animator = GetComponent<Animator>();
+        animator.SetBool("Eating",false);
     }
 
     protected void Update()
     {
         //Update meters
         float timePassed = Time.deltaTime;
-        genes.HungerTimer -= timePassed*2;
-        //genes.ThirstTimer -= timePassed*3;
+        genes.HungerTimer -= timePassed*3;
+        //genes.ThirstTimer -= timePassed*2;
         //genes.Energy -= timePassed;
         
+        Debug.LogError(target);
+        if(target != null)
+            Debug.Log(target.transform.position);
+        //REORGANIZE
         if (target != null&& !DestinationReached())
         {
             navMeshAgent.destination = target.transform.position;
             hasDestination = true;
             inAction = true;
         }
-        PerformAction(currentAction);
+        
+            PerformAction(currentAction);
         if (DestinationReached())
         {
-            if (currentAction == Enums.CurrentAction.GoingToEat)
+            if (target != null )
+                //&& Vector3.Distance(transform.position, target.transform.position) <= navMeshAgent.stoppingDistance)
             {
-                currentAction = Enums.CurrentAction.Eating;
-                PerformAction(currentAction);
-                return;
+                if (currentAction == Enums.CurrentAction.GoingToEat)
+                {
+                    currentAction = Enums.CurrentAction.Eating;
+                    PerformAction(currentAction);
+                    return;
 
-            }
-            else if (currentAction == Enums.CurrentAction.GoingToDrink)
-            {
-                currentAction = Enums.CurrentAction.Drinking;
-                PerformAction(currentAction);
-                return;
+                }
+                else if (currentAction == Enums.CurrentAction.GoingToDrink)
+                {
+                    currentAction = Enums.CurrentAction.Drinking;
+                    PerformAction(currentAction);
+                    return;
 
+                }
             }
-                
+
 
             hasDestination = false;
+            if(target != null)
             navMeshAgent.speed = 0;
             inAction = false;
 
@@ -99,8 +112,6 @@ public class Animal : Creature
         { 
             
             //Update action
-            currentAction = SelectNewAction();
-            Debug.Log(currentAction);
             if (currentAction == Enums.CurrentAction.Exploring)
             {
                 navMeshAgent.speed = genes.WalkSpeed;
@@ -119,6 +130,7 @@ public class Animal : Creature
 
                 navMeshAgent.destination = FindClosestWithTag(foodTag);
                 navMeshAgent.speed = genes.WalkSpeed;
+                Debug.LogWarning("Hi");
                 
             }
 
@@ -136,6 +148,7 @@ public class Animal : Creature
                  PerformAction(Enums.CurrentAction.Drinking);
 
 
+             currentAction = SelectNewAction();
 
 
 
@@ -162,14 +175,24 @@ public class Animal : Creature
     protected Enums.CurrentAction SelectNewAction()
     {
 
+        if(currentAction == Enums.CurrentAction.GoingToDrink || currentAction == Enums.CurrentAction.GoingToEat)
+            if (target == null)
+                return currentAction;
 
-        
-        
-            Random random = new Random();
-            if (genes.HungerTimer < genes.MaxHunger * 0.5f)
-                return Enums.CurrentAction.GoingToEat;
+
+
+        Random random = new Random();
+        if (genes.HungerTimer < genes.MaxHunger * 0.5f)
+        {
+            navMeshAgent.SetDestination(FindClosestWithTag(foodTag));
+            return Enums.CurrentAction.GoingToEat;
+        }
              else if (genes.ThirstTimer < genes.MaxThirst * 0.5f)
-                return Enums.CurrentAction.GoingToDrink;
+        {
+            navMeshAgent.SetDestination(FindClosestWithTag("Water"));
+
+            return Enums.CurrentAction.GoingToDrink;
+        }
              else if (genes.Energy < genes.MaxEnergy * 0.3f)
                 return Enums.CurrentAction.Idle;
              else return Enums.CurrentAction.Exploring;
@@ -247,6 +270,14 @@ public class Animal : Creature
         }
 
         target = closestObject;
+
+        if (Vector3.Distance(transform.position, target.transform.position) >= genes.VisionRange)
+        {
+            target = null;
+            return RandomSphere(transform.position,genes.VisionRange);
+            currentAction = Enums.CurrentAction.Exploring;
+            navMeshAgent.speed = genes.WalkSpeed;
+        }
         return closestObject.transform.position;
     }
 
@@ -259,19 +290,23 @@ public class Animal : Creature
         navMeshAgent.speed = 0;
         
         actionTimer -= Time.deltaTime;
+        if (currentAction == Enums.CurrentAction.Eating || currentAction == Enums.CurrentAction.Drinking)
+        animator.SetBool("Eating",true);
         if (actionTimer <= 0)
         {
-                if (currentAction == Enums.CurrentAction.Eating)
-                    genes.HungerTimer = genes.MaxHunger;
+            if (currentAction == Enums.CurrentAction.Eating)
+            {
+                genes.HungerTimer = genes.MaxHunger;
+                Debug.LogError("WOA" + genes.HungerTimer);
+            }
                 else if (currentAction == Enums.CurrentAction.Drinking)
-                {
                     genes.ThirstTimer = genes.MaxThirst;
-                    Debug.LogError(genes.ThirstTimer);
 
-                }
+            
+                animator.SetBool("Eating",false);
 
                 inAction = false;
-            actionTimer = 2.5f;
+            actionTimer = 5f;
             currentAction = Enums.CurrentAction.Idle;
 
             target = null;

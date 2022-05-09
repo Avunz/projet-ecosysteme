@@ -5,7 +5,7 @@ using UnityEngine;
 public class AnimalManager : MonoBehaviour
 {
     [SerializeField]
-    private GameObject chick, Chicken1, Chicken2, Rooster, Fox, FemaleFox;
+    private GameObject Chick, Chicken1, Chicken2, Rooster, Fox, FemaleFox;
 
     private Chicken chicken;
     private Fox fox;
@@ -17,10 +17,10 @@ public class AnimalManager : MonoBehaviour
         foxBaseGenes = new Genes(10f, 11f, 3f, 60f, 50f, 70f, 55f);
 
         DontDestroyOnLoad(gameObject);
-        chicken = Chicken1.GetComponent<Chicken>();
-        for (int index = 0; index < -1; index++)
+        chicken = Chick.GetComponent<Chicken>();
+        for (int index = 0; index < 10; index++)
         {
-            Instantiate(Chicken1, new Vector3(-15, 2, 20), Quaternion.identity);
+            Instantiate(Chick, new Vector3(-1, 2.1f, 9), Quaternion.identity);
             chicken.Genes = chickenBaseGenes;
 
 

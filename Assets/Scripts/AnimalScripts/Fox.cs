@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Fox : Animal
 {
-    // Start is called before the first frame update
     
     void Start()
     {
@@ -19,8 +18,20 @@ public class Fox : Animal
 
     void Update()
     {
-        if (currentAction == Enums.CurrentAction.GoingToEat) navMeshAgent.speed = genes.RunSpeed;
-        else navMeshAgent.speed = genes.WalkSpeed;
+        base.Update();
+        if (currentAction == Enums.CurrentAction.GoingToEat)
+        {
+            navMeshAgent.speed = genes.RunSpeed;
+            if(target != null)
+            animator.SetFloat("Speed",1);
+
+        }
+        else
+        {
+            navMeshAgent.speed = genes.WalkSpeed;
+            animator.SetFloat("Speed",0.5f);
+
+        }
         if (currentAction == Enums.CurrentAction.Eating && target != null)
         {
             Chicken targetChicken = target.GetComponent<Chicken>();
@@ -29,7 +40,7 @@ public class Fox : Animal
             genes.HungerTimer = genes.MaxHunger;
 
         }
-        base.Update();
+
     }
     
 }

@@ -104,6 +104,7 @@ GameObject:
   - component: {fileID: 1315291647093718357}
   - component: {fileID: -1094454677037068284}
   - component: {fileID: -2519148537735199426}
+  - component: {fileID: 7418705553956539227}
   m_Layer: 0
   m_Name: Chick
   m_TagString: Chicken
@@ -188,24 +189,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   species: 0
-  predator: 0
-  meal: 0
-  currentAction: 0
   model: {fileID: 0}
   navMeshAgent: {fileID: 0}
   animator: {fileID: 0}
-  criticalHungerCount: 0
-  criticalThirstCount: 0
-  criticalDangerCount: 0
-  criticalPregnancyDangerCount: 0
-  actionTimer: 3
-  inAction: 0
-  hasParents: 0
-  isPregnant: 0
-  hasMated: 0
-  hasDestination: 0
-  needsTarget: 0
-  isAdult: 0
 --- !u!195 &-2519148537735199426
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -228,6 +214,22 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &7418705553956539227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 112640}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99216552972d2164ea48e5fca55eae74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  species: 0
+  model: {fileID: 0}
+  navMeshAgent: {fileID: 0}
+  animator: {fileID: 0}
 --- !u!1 &113672
 GameObject:
   m_ObjectHideFlags: 0

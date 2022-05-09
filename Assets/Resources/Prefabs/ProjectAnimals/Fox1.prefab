@@ -163,25 +163,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37ed530cc938c7446a26bbaa0a11da11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  species: 0
-  predator: 0
-  meal: 0
-  currentAction: 0
+  species: 1
   model: {fileID: 0}
   navMeshAgent: {fileID: 0}
   animator: {fileID: 0}
-  criticalHungerCount: 0
-  criticalThirstCount: 0
-  criticalDangerCount: 0
-  criticalPregnancyDangerCount: 0
-  actionTimer: 3
-  inAction: 0
-  hasParents: 0
-  isPregnant: 0
-  hasMated: 0
-  hasDestination: 0
-  needsTarget: 0
-  isAdult: 0
 --- !u!54 &-762701728025263728
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 110320}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.13337907, z: -0.05985334}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 439378}
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 8246964284549417099}
   - component: {fileID: 7510819430328361555}
   - component: {fileID: 6598384017792322912}
-  - component: {fileID: 9134692012141689881}
+  - component: {fileID: 5275687627804306542}
   m_Layer: 0
   m_Name: Fox2
   m_TagString: Fox
@@ -150,25 +150,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37ed530cc938c7446a26bbaa0a11da11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  species: 0
-  predator: 0
-  meal: 0
-  currentAction: 0
+  species: 1
   model: {fileID: 0}
   navMeshAgent: {fileID: 0}
   animator: {fileID: 0}
-  criticalHungerCount: 0
-  criticalThirstCount: 0
-  criticalDangerCount: 0
-  criticalPregnancyDangerCount: 0
-  actionTimer: 3
-  inAction: 0
-  hasParents: 0
-  isPregnant: 0
-  hasMated: 0
-  hasDestination: 0
-  needsTarget: 0
-  isAdult: 0
 --- !u!54 &7510819430328361555
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -207,7 +192,7 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!65 &9134692012141689881
+--- !u!65 &5275687627804306542
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
